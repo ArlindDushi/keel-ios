@@ -1,0 +1,35 @@
+# XcodeGen spec for the Keel macOS app. Generate the project with: xcodegen generate
+name: Keel
+
+options:
+  deploymentTarget:
+    macOS: "15.0"
+  createIntermediateGroups: true
+
+packages:
+  Keel:
+    path: .
+
+targets:
+  Keel:
+    type: application
+    platform: macOS
+    sources:
+      - App
+    dependencies:
+      - package: Keel
+        product: KeeliOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.arlinddushi.keel.ios
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Keel
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        SWIFT_VERSION: 6.0
+        # A developer tool distributed outside the Mac App Store: it runs git and writes anywhere the user picks.
+        ENABLE_APP_SANDBOX: NO
+        ENABLE_HARDENED_RUNTIME: YES
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"

@@ -1,0 +1,10 @@
+import CoreGraphics
+
+/// Spacing scale used across the app. Prefer these over hard-coded numbers.
+enum Spacing {
+    static let extraSmall: CGFloat = 4
+    static let small: CGFloat = 8
+    static let medium: CGFloat = 16
+    static let large: CGFloat = 24
+    static let extraLarge: CGFloat = 32
+}

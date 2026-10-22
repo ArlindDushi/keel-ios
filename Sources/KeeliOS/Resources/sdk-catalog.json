@@ -1,0 +1,96 @@
+[
+  {
+    "id": "alamofire",
+    "name": "Alamofire",
+    "summary": "Elegant HTTP networking. The generated APIClient uses it instead of URLSession.",
+    "category": "Networking",
+    "url": "https://github.com/Alamofire/Alamofire",
+    "version": "5.12.0",
+    "products": ["Alamofire"]
+  },
+  {
+    "id": "kingfisher",
+    "name": "Kingfisher",
+    "summary": "Downloading and caching images from the web.",
+    "category": "Images",
+    "url": "https://github.com/onevcat/Kingfisher",
+    "version": "8.14.0",
+    "products": ["Kingfisher"]
+  },
+  {
+    "id": "sdwebimage",
+    "name": "SDWebImage",
+    "summary": "Asynchronous image downloader with cache support.",
+    "category": "Images",
+    "url": "https://github.com/SDWebImage/SDWebImage",
+    "version": "5.21.0",
+    "products": ["SDWebImage"]
+  },
+  {
+    "id": "lottie",
+    "name": "Lottie",
+    "summary": "Renders After Effects animations natively.",
+    "category": "UI",
+    "url": "https://github.com/airbnb/lottie-spm",
+    "version": "4.6.0",
+    "products": ["Lottie"]
+  },
+  {
+    "id": "snapkit",
+    "name": "SnapKit",
+    "summary": "A Swift Auto Layout DSL.",
+    "category": "UI",
+    "url": "https://github.com/SnapKit/SnapKit",
+    "version": "6.0.0",
+    "products": ["SnapKit"],
+    "uiFrameworks": ["uikit"]
+  },
+  {
+    "id": "keychainaccess",
+    "name": "KeychainAccess",
+    "summary": "Simple Swift wrapper for the Keychain.",
+    "category": "Storage",
+    "url": "https://github.com/kishikawakatsumi/KeychainAccess",
+    "version": "4.2.2",
+    "products": ["KeychainAccess"]
+  },
+  {
+    "id": "factory",
+    "name": "Factory",
+    "summary": "Container-based dependency injection.",
+    "category": "Architecture",
+    "url": "https://github.com/hmlongco/Factory",
+    "version": "3.0.0",
+    "products": ["Factory"]
+  },
+  {
+    "id": "sentry",
+    "name": "Sentry",
+    "summary": "Crash reporting and performance monitoring. Started on launch once you add a DSN.",
+    "category": "Monitoring",
+    "url": "https://github.com/getsentry/sentry-cocoa",
+    "version": "9.0.0",
+    "products": ["Sentry"]
+  },
+  {
+    "id": "firebase",
+    "name": "Firebase",
+    "summary": "Google's app platform. Configured on launch when GoogleService-Info.plist is in the app.",
+    "category": "Monitoring",
+    "url": "https://github.com/firebase/firebase-ios-sdk",
+    "version": "13.0.0",
+    "products": ["FirebaseAnalytics", "FirebaseCrashlytics", "FirebaseMessaging", "FirebaseRemoteConfig", "FirebaseAuth", "FirebaseFirestore"],
+    "defaultProducts": ["FirebaseAnalytics", "FirebaseCrashlytics"],
+    "linkerFlags": ["-ObjC"]
+  },
+  {
+    "id": "revenuecat",
+    "name": "RevenueCat",
+    "summary": "In-app purchases and subscriptions.",
+    "category": "Monetization",
+    "url": "https://github.com/RevenueCat/purchases-ios-spm",
+    "version": "5.0.0",
+    "products": ["RevenueCat", "RevenueCatUI"],
+    "defaultProducts": ["RevenueCat"]
+  }
+]

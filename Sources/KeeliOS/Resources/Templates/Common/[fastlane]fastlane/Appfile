@@ -1,0 +1,6 @@
+app_identifier("{{BUNDLE_ID}}")
+{{#if has_team}}
+team_id("{{TEAM_ID}}")
+{{else}}
+# team_id("YOUR_TEAM_ID")
+{{/if}}
