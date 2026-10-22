@@ -23,6 +23,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.arlinddushi.keel.ios
         GENERATE_INFOPLIST_FILE: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         INFOPLIST_KEY_CFBundleDisplayName: Keel
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
         MARKETING_VERSION: 1.0.0
