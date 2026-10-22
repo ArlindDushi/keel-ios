@@ -171,15 +171,12 @@ those fields and jump to each one in turn. Then click **Create Project** (⌘↩
 
 - macOS 15 or later
 - Xcode 16 or later
-- [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`), only for creating Keel's
-  own Xcode project. Generating projects doesn't need it: Keel uses XcodeGen as a library.
 
 ## Building Keel
 
 ```bash
 git clone https://github.com/ArlindDushi/keel-ios.git
 cd keel-ios
-xcodegen generate
 open Keel.xcodeproj
 ```
 
@@ -197,7 +194,7 @@ Then run the **Keel** scheme.
 | `Sources/KeeliOS/Resources/Templates/` | Files copied into generated projects |
 | `Sources/KeeliOS/Resources/sdk-catalog.json` | The curated SDK list |
 | `Tests/` | `KeelCoreTests` and `KeeliOSTests` |
-| `project.yml` | XcodeGen spec of the Keel app |
+| `Keel.xcodeproj` | Xcode project of the macOS app. `App/` is a synchronized folder, so new files show up without editing the project |
 
 `KeelCore` knows nothing about iOS, so generators for other stacks (React Native, Android, …) can
 reuse it.

@@ -4,5 +4,3 @@
 DerivedData/
 xcuserdata/
 *.xcuserstate
-# Generated from project.yml with XcodeGen
-Keel.xcodeproj/
