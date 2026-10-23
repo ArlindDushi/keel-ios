@@ -52,21 +52,6 @@ extension ProjectConfiguration {
         return TemplateContext(variables: variables, flags: flags)
     }
 
-    private func fastlaneLane(_ environment: AppEnvironment) -> String {
-        """
-        desc "Builds the \(environment.name) app and uploads it to TestFlight"
-        lane :beta_\(environment.caseName.lowercased()) do
-          increment_build_number(build_number: latest_testflight_build_number(app_identifier: "\(bundleID + environment.bundleIDSuffix)") + 1)
-          build_app(
-            scheme: "\(environment.schemeName(appName: appName))",
-            configuration: "\(environment.releaseConfigurationName)",
-            export_method: "app-store"
-          )
-          upload_to_testflight(skip_waiting_for_build_processing: true)
-        end
-        """
-    }
-
     /// Contents of `Configuration/<Environment>.xcconfig`.
     func xcconfig(for environment: AppEnvironment) -> String {
         // `//` starts a comment in xcconfig files, so URLs need the `$()` escape.
@@ -83,6 +68,23 @@ extension ProjectConfiguration {
         API_BASE_URL = \(url)
         SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) \(environment.compilationCondition)
 
+        """
+    }
+}
+
+private extension ProjectConfiguration {
+    func fastlaneLane(_ environment: AppEnvironment) -> String {
+        """
+        desc "Builds the \(environment.name) app and uploads it to TestFlight"
+        lane :beta_\(environment.caseName.lowercased()) do
+          increment_build_number(build_number: latest_testflight_build_number(app_identifier: "\(bundleID + environment.bundleIDSuffix)") + 1)
+          build_app(
+            scheme: "\(environment.schemeName(appName: appName))",
+            configuration: "\(environment.releaseConfigurationName)",
+            export_method: "app-store"
+          )
+          upload_to_testflight(skip_waiting_for_build_processing: true)
+        end
         """
     }
 }

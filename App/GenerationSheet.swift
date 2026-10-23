@@ -63,8 +63,10 @@ struct GenerationSheet: View {
         .frame(width: 460)
         .interactiveDismissDisabled(model.isGenerating)
     }
+}
 
-    private var steps: [GenerationStep] {
+private extension GenerationSheet {
+    var steps: [GenerationStep] {
         GenerationStep.allCases.filter { $0 != .initializingGit || model.extras.gitInit }
     }
 }

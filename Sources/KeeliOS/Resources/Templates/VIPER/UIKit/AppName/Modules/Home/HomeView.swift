@@ -24,8 +24,10 @@ final class HomeView: UIView {
             activityIndicator.stopAnimating()
         }
     }
+}
 
-    private func setUpLayout() {
+private extension HomeView {
+    func setUpLayout() {
         backgroundColor = .systemGroupedBackground
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Self.cellIdentifier)
         activityIndicator.hidesWhenStopped = true

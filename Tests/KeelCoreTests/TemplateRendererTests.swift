@@ -2,10 +2,6 @@ import Testing
 @testable import KeelCore
 
 struct TemplateRendererTests {
-    private func render(_ template: String, variables: [String: String] = [:], flags: Set<String> = []) throws -> String {
-        try TemplateRenderer(context: TemplateContext(variables: variables, flags: flags)).render(template)
-    }
-
     @Test func replacesVariables() throws {
         #expect(try render("Hello {{NAME}}!", variables: ["NAME": "World"]) == "Hello World!")
     }
@@ -71,5 +67,11 @@ struct TemplateRendererTests {
         #expect(try TemplateTree.resolve("[tests]AppNameTests", context: context, appName: "Demo") == "DemoTests")
         #expect(try TemplateTree.resolve("[!tests]Other", context: context, appName: "Demo") == nil)
         #expect(try TemplateTree.resolve("_.gitignore", context: context, appName: "Demo") == ".gitignore")
+    }
+}
+
+private extension TemplateRendererTests {
+    func render(_ template: String, variables: [String: String] = [:], flags: Set<String> = []) throws -> String {
+        try TemplateRenderer(context: TemplateContext(variables: variables, flags: flags)).render(template)
     }
 }

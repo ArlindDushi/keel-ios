@@ -46,15 +46,17 @@ struct ContentView: View {
             Text("Replacing it deletes everything in \(model.pendingOverwrite?.path ?? "").")
         }
     }
+}
 
-    private var isShowingGeneration: Binding<Bool> {
+private extension ContentView {
+    var isShowingGeneration: Binding<Bool> {
         Binding(
             get: { model.phase != .idle },
             set: { if !$0, !model.isGenerating { model.phase = .idle } }
         )
     }
 
-    private var isConfirmingOverwrite: Binding<Bool> {
+    var isConfirmingOverwrite: Binding<Bool> {
         Binding(
             get: { model.pendingOverwrite != nil },
             set: { if !$0 { model.pendingOverwrite = nil } }

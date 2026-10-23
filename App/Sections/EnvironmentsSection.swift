@@ -80,24 +80,26 @@ private struct EnvironmentRow: View {
         .issueHighlight(model.isHighlighted(.environment(environment.id)))
         .id(FormAnchor.field(.environment(environment.id)))
     }
+}
 
+private extension EnvironmentRow {
     /// The bundle ID this environment builds with, e.g. "com.acme.weather.dev".
-    private var bundleID: String {
+    var bundleID: String {
         let base = model.bundleID.trimmingCharacters(in: .whitespaces)
         return (base.isEmpty ? "com.company.app" : base) + environment.bundleIDSuffix
     }
 
     /// The home screen name of this environment's build, e.g. "Weather Dev".
-    private var displayName: String {
+    var displayName: String {
         let base = model.displayName.trimmingCharacters(in: .whitespaces)
         return (base.isEmpty ? "App" : base) + environment.displayNameSuffix
     }
 
-    private var name: Binding<String> {
+    var name: Binding<String> {
         Binding(get: { environment.name }, set: { model.rename(environment, to: $0) })
     }
 
-    private var isProduction: Binding<Bool> {
+    var isProduction: Binding<Bool> {
         Binding(get: { environment.isProduction }, set: { if $0 { model.makeProduction(environment) } })
     }
 }

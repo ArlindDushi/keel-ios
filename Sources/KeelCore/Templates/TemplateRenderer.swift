@@ -15,11 +15,6 @@ public struct TemplateRenderer: Sendable {
         var isActive: Bool { parentActive && (inElse ? !conditionMet : conditionMet) }
     }
 
-    private static var variablePattern: Regex<(Substring, Substring)> { /\{\{([A-Z][A-Z0-9_]*)\}\}/ }
-    private static var ifPattern: Regex<(Substring, Substring)> { /^\s*\{\{#if\s+(.+?)\s*\}\}\s*$/ }
-    private static var elsePattern: Regex<Substring> { /^\s*\{\{else\}\}\s*$/ }
-    private static var endPattern: Regex<Substring> { /^\s*\{\{\/if\}\}\s*$/ }
-
     public func render(_ template: String) throws -> String {
         var output: [Substring] = []
         var blocks: [Block] = []
@@ -46,10 +41,17 @@ public struct TemplateRenderer: Sendable {
         guard blocks.isEmpty else { throw TemplateError.unclosedBlock }
         return output.joined(separator: "\n")
     }
+}
+
+private extension TemplateRenderer {
+    static var variablePattern: Regex<(Substring, Substring)> { /\{\{([A-Z][A-Z0-9_]*)\}\}/ }
+    static var ifPattern: Regex<(Substring, Substring)> { /^\s*\{\{#if\s+(.+?)\s*\}\}\s*$/ }
+    static var elsePattern: Regex<Substring> { /^\s*\{\{else\}\}\s*$/ }
+    static var endPattern: Regex<Substring> { /^\s*\{\{\/if\}\}\s*$/ }
 
     /// Replaces `{{NAME}}` placeholders. A multi-line value on a line of its own is
     /// indented to the placeholder's indentation.
-    private func substitute(_ line: Substring) throws -> String {
+    func substitute(_ line: Substring) throws -> String {
         var indentation = ""
         if let match = line.wholeMatch(of: /(\s*)\{\{[A-Z][A-Z0-9_]*\}\}\s*/) {
             indentation = String(match.1)

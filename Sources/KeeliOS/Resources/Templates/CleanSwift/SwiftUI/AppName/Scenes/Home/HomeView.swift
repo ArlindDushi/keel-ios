@@ -23,9 +23,11 @@ struct HomeView: View {
                 await fetchItems()
             }
     }
+}
 
+private extension HomeView {
     @ViewBuilder
-    private var content: some View {
+    var content: some View {
         if let message = state.errorMessage {
             ContentUnavailableView {
                 Label("Something went wrong", systemImage: "exclamationmark.triangle")
@@ -50,7 +52,7 @@ struct HomeView: View {
         }
     }
 
-    private func fetchItems() async {
+    func fetchItems() async {
         state.isLoading = true
         await interactor.fetchItems(request: Home.FetchItems.Request())
     }

@@ -22,8 +22,10 @@ final class AppCoordinator: Coordinator {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
+}
 
-    private func showDetail(of item: Item) {
+private extension AppCoordinator {
+    func showDetail(of item: Item) {
         let viewController = ItemDetailViewController(viewModel: ItemDetailViewModel(item: item))
         navigationController.pushViewController(viewController, animated: true)
     }

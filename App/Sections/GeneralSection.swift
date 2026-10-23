@@ -56,21 +56,23 @@ struct GeneralSection: View {
         .issueHighlight(model.isHighlighted(.outputDirectory))
         .id(FormAnchor.field(.outputDirectory))
     }
+}
 
+private extension GeneralSection {
     /// Matches the generator, which drops a trailing period so the header doesn't read "Inc.. All rights reserved."
-    private var copyrightHolder: String {
+    var copyrightHolder: String {
         let name = model.organizationName.trimmingCharacters(in: .whitespaces)
         guard !name.isEmpty else { return "Company Inc" }
         return name.hasSuffix(".") ? String(name.dropLast()) : name
     }
 
-    private var author: String {
+    var author: String {
         let name = model.authorName.trimmingCharacters(in: .whitespaces)
         return name.isEmpty ? "Your name" : name
     }
 
     @ViewBuilder
-    private func field(
+    func field(
         _ title: String,
         text: Binding<String>,
         prompt: String,

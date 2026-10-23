@@ -31,9 +31,11 @@ enum FileHeader {
         """
         return try PropertyListSerialization.data(fromPropertyList: ["FILEHEADER": header], format: .xml, options: 0)
     }
+}
 
+private extension FileHeader {
     /// "Example Inc." → "Example Inc", so the header doesn't end up with "Inc.. All rights reserved."
-    private static func copyrightHolder(_ organization: String) -> String {
+    static func copyrightHolder(_ organization: String) -> String {
         organization.hasSuffix(".") ? String(organization.dropLast()) : organization
     }
 }

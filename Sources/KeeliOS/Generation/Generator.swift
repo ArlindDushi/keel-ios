@@ -114,9 +114,14 @@ public struct Generator: Sendable {
         }
     }
 
+    /// XcodeGen isn't safe to run concurrently, so generations are serialized.
+    private static let xcodeGenLock = NSLock()
+}
+
+private extension Generator {
     // MARK: - Steps
 
-    private func copyTemplates(to directory: URL) throws {
+    func copyTemplates(to directory: URL) throws {
         let context = configuration.templateContext(date: date)
         let renderer = TemplateRenderer(context: context)
         let testTargets: Set<String> = ["\(configuration.appName)Tests", "\(configuration.appName)UITests"]
@@ -151,10 +156,7 @@ public struct Generator: Sendable {
         try makeExecutable(directory.appending(path: "Scripts/swiftlint.sh"))
     }
 
-    /// XcodeGen isn't safe to run concurrently, so generations are serialized.
-    private static let xcodeGenLock = NSLock()
-
-    private func generateProject(in directory: URL) throws {
+    func generateProject(in directory: URL) throws {
         let basePath = Path(directory.path)
         let builder = SpecBuilder(configuration: configuration)
         do {
@@ -181,16 +183,16 @@ public struct Generator: Sendable {
 
     // MARK: - Files
 
-    private func write(_ string: String, to url: URL) throws {
+    func write(_ string: String, to url: URL) throws {
         try write(Data(string.utf8), to: url)
     }
 
-    private func write(_ data: Data, to url: URL) throws {
+    func write(_ data: Data, to url: URL) throws {
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         try data.write(to: url)
     }
 
-    private func makeExecutable(_ url: URL) throws {
+    func makeExecutable(_ url: URL) throws {
         guard FileManager.default.fileExists(atPath: url.path) else { return }
         try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: url.path)
     }

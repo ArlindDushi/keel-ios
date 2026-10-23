@@ -25,11 +25,6 @@ final class HomeViewController: UIViewController {
         homeView.tableView.delegate = self
         fetchItems()
     }
-
-    private func fetchItems() {
-        homeView.setLoading(true)
-        Task { await interactor?.fetchItems(request: Home.FetchItems.Request()) }
-    }
 }
 
 extension HomeViewController: HomeDisplayLogic {
@@ -74,5 +69,12 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         interactor?.selectItem(request: Home.SelectItem.Request(index: indexPath.row))
+    }
+}
+
+private extension HomeViewController {
+    func fetchItems() {
+        homeView.setLoading(true)
+        Task { await interactor?.fetchItems(request: Home.FetchItems.Request()) }
     }
 }

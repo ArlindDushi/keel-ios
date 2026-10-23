@@ -12,9 +12,11 @@ struct HomeView: View {
             .navigationTitle("Home")
             .task { await viewModel.loadIfNeeded() }
     }
+}
 
+private extension HomeView {
     @ViewBuilder
-    private var content: some View {
+    var content: some View {
         switch viewModel.state {
         case .idle, .loading:
             ProgressView()

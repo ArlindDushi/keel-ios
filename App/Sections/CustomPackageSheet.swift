@@ -56,8 +56,10 @@ struct CustomPackageSheet: View {
         }
         .frame(width: 480)
     }
+}
 
-    private var package: RemotePackage {
+private extension CustomPackageSheet {
+    var package: RemotePackage {
         let value = version.trimmingCharacters(in: .whitespaces)
         let requirement: RemotePackage.Requirement = switch rule {
         case .upToNextMajor: .upToNextMajor(value)
@@ -73,7 +75,7 @@ struct CustomPackageSheet: View {
         )
     }
 
-    private var issues: [ValidationIssue] {
+    var issues: [ValidationIssue] {
         guard !url.isEmpty else { return [] }
         let existing = model.configuration.resolvedPackages
         return ConfigurationValidator.packageIssues(existing + [package]).filter { $0.field == .package(package.id) }

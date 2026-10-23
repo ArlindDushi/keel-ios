@@ -113,13 +113,6 @@ final class ProjectFormModel {
         catalog.filter { $0.supports(uiFramework) }
     }
 
-    private var selectedPackages: [RemotePackage] {
-        availableCatalog.compactMap { entry in
-            guard let products = selectedProducts[entry.id] else { return nil }
-            return entry.package(products: Array(products))
-        }
-    }
-
     /// Paths shown in the preview, including the project file.
     var plannedFiles: [String] {
         var configuration = configuration
@@ -251,16 +244,25 @@ final class ProjectFormModel {
             outputDirectory = url
         }
     }
+}
+
+private extension ProjectFormModel {
+    var selectedPackages: [RemotePackage] {
+        availableCatalog.compactMap { entry in
+            guard let products = selectedProducts[entry.id] else { return nil }
+            return entry.package(products: Array(products))
+        }
+    }
 
     // MARK: Auto-filled fields
 
-    private func suggestedBundleID(prefix: String, appName: String) -> String {
+    func suggestedBundleID(prefix: String, appName: String) -> String {
         let name = appName.lowercased().filter { $0.isLetter || $0.isNumber }
         let prefix = prefix.trimmingCharacters(in: CharacterSet(charactersIn: ". "))
         return [prefix, name].filter { !$0.isEmpty }.joined(separator: ".")
     }
 
-    private func appNameDidChange(from oldValue: String) {
+    func appNameDidChange(from oldValue: String) {
         if displayName.isEmpty || displayName == oldValue {
             displayName = appName
         }
@@ -269,14 +271,14 @@ final class ProjectFormModel {
         }
     }
 
-    private func bundleIDPrefixDidChange(from oldValue: String) {
+    func bundleIDPrefixDidChange(from oldValue: String) {
         Preferences.bundleIDPrefix = bundleIDPrefix
         if bundleID.isEmpty || bundleID == suggestedBundleID(prefix: oldValue, appName: appName) {
             bundleID = suggestedBundleID(prefix: bundleIDPrefix, appName: appName)
         }
     }
 
-    private func uiFrameworkDidChange() {
+    func uiFrameworkDidChange() {
         if !pattern.supports(uiFramework),
            let replacement = ArchitecturePattern.allCases.first(where: { $0.supports(uiFramework) }) {
             pattern = pattern == .tca ? .mvvm : replacement

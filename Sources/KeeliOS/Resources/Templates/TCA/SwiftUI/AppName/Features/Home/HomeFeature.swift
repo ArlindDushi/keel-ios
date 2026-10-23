@@ -45,8 +45,10 @@ struct HomeFeature {
             }
         }
     }
+}
 
-    private func loadItems(_ state: inout State) -> Effect<Action> {
+private extension HomeFeature {
+    func loadItems(_ state: inout State) -> Effect<Action> {
         state.isLoading = true
         state.errorMessage = nil
         return .run { send in

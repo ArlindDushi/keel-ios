@@ -29,28 +29,6 @@ final class HomeViewController: UIViewController {
         homeView.tableView.delegate = self
         Task { await loadItems() }
     }
-
-    private func loadItems() async {
-        homeView.setLoading(true)
-        defer { homeView.setLoading(false) }
-        do {
-            items = try await itemService.fetchItems()
-        } catch {
-            showError(error)
-        }
-    }
-
-    private func showError(_ error: any Error) {
-        let alert = UIAlertController(
-            title: String(localized: "Something went wrong"),
-            message: error.localizedDescription,
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: String(localized: "Try Again"), style: .default) { [weak self] _ in
-            Task { await self?.loadItems() }
-        })
-        present(alert, animated: true)
-    }
 }
 
 extension HomeViewController: UITableViewDataSource {
@@ -75,5 +53,29 @@ extension HomeViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let detail = ItemDetailViewController(item: items[indexPath.row])
         navigationController?.pushViewController(detail, animated: true)
+    }
+}
+
+private extension HomeViewController {
+    func loadItems() async {
+        homeView.setLoading(true)
+        defer { homeView.setLoading(false) }
+        do {
+            items = try await itemService.fetchItems()
+        } catch {
+            showError(error)
+        }
+    }
+
+    func showError(_ error: any Error) {
+        let alert = UIAlertController(
+            title: String(localized: "Something went wrong"),
+            message: error.localizedDescription,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: String(localized: "Try Again"), style: .default) { [weak self] _ in
+            Task { await self?.loadItems() }
+        })
+        present(alert, animated: true)
     }
 }

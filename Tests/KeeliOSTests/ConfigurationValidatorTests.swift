@@ -3,12 +3,6 @@ import Testing
 @testable import KeeliOS
 
 struct ConfigurationValidatorTests {
-    private func issues(_ change: (inout ProjectConfiguration) -> Void) -> [ValidationIssue] {
-        var configuration = ProjectConfiguration.fixture()
-        change(&configuration)
-        return ConfigurationValidator.issues(for: configuration)
-    }
-
     @Test func fixtureIsValid() {
         #expect(issues { _ in }.isEmpty)
     }
@@ -53,5 +47,13 @@ struct ConfigurationValidatorTests {
     @Test func rejectsPackagesWithoutProducts() {
         let package = RemotePackage(name: "Foo", url: "https://github.com/a/Foo", requirement: .upToNextMajor("1.0.0"), products: [])
         #expect(issues { $0.packages = [package] }.contains { $0.field == .package(package.id) })
+    }
+}
+
+private extension ConfigurationValidatorTests {
+    func issues(_ change: (inout ProjectConfiguration) -> Void) -> [ValidationIssue] {
+        var configuration = ProjectConfiguration.fixture()
+        change(&configuration)
+        return ConfigurationValidator.issues(for: configuration)
     }
 }

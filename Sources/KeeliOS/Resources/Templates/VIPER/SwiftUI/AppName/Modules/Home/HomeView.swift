@@ -17,9 +17,11 @@ struct HomeView<Router: HomeRouterProtocol>: View {
             }
             .task { await presenter.onAppear() }
     }
+}
 
+private extension HomeView {
     @ViewBuilder
-    private var content: some View {
+    var content: some View {
         if let message = presenter.errorMessage {
             ContentUnavailableView {
                 Label("Something went wrong", systemImage: "exclamationmark.triangle")

@@ -14,8 +14,10 @@ final class ItemDetailContentView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
-    private func setUpLayout() {
+private extension ItemDetailContentView {
+    func setUpLayout() {
         backgroundColor = .systemBackground
         titleLabel.font = .preferredFont(forTextStyle: .title1)
         titleLabel.adjustsFontForContentSizeCategory = true

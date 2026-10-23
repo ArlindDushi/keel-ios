@@ -41,8 +41,10 @@ extension ProjectFormModel {
         scrollRequest = ScrollRequest(anchor: anchors[issueCursor % anchors.count])
         issueCursor += 1
     }
+}
 
-    private func anchor(for field: ValidationIssue.Field) -> String {
+private extension ProjectFormModel {
+    func anchor(for field: ValidationIssue.Field) -> String {
         // Packages picked from the catalog are rebuilt on every change, so their issues point at the catalog row.
         if case let .package(id) = field, !customPackages.contains(where: { $0.id == id }),
            let entry = availableCatalog.first(where: { selectedProducts[$0.id]?.isEmpty == true }) {

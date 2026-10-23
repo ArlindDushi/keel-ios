@@ -9,9 +9,11 @@ struct HomeView: View {
             .navigationTitle("Home")
             .onAppear { store.send(.onAppear) }
     }
+}
 
+private extension HomeView {
     @ViewBuilder
-    private var content: some View {
+    var content: some View {
         if let message = store.errorMessage {
             ContentUnavailableView {
                 Label("Something went wrong", systemImage: "exclamationmark.triangle")

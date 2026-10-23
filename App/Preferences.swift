@@ -4,8 +4,6 @@ import KeeliOS
 /// Values remembered between launches.
 @MainActor
 enum Preferences {
-    private static var defaults: UserDefaults { .standard }
-
     static var organizationName: String {
         get { defaults.string(forKey: "organizationName") ?? "" }
         set { defaults.set(newValue, forKey: "organizationName") }
@@ -47,4 +45,8 @@ enum Preferences {
         get { defaults.object(forKey: "openInXcode") as? Bool ?? true }
         set { defaults.set(newValue, forKey: "openInXcode") }
     }
+}
+
+private extension Preferences {
+    static var defaults: UserDefaults { .standard }
 }

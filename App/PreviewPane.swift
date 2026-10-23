@@ -143,8 +143,10 @@ private struct FileNodeRow: View {
             }
         }
     }
+}
 
-    private var icon: String {
+private extension FileNodeRow {
+    var icon: String {
         if node.name.hasSuffix(".xcodeproj") { return "hammer.fill" }
         if node.isDirectory { return "folder.fill" }
         switch (node.name as NSString).pathExtension {

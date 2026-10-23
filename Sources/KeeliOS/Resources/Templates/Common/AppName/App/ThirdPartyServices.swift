@@ -17,9 +17,12 @@ enum ThirdPartyServices {
         configureFirebase()
 {{/if}}
     }
-{{#if has_Sentry}}
+}
+{{#if has_Sentry || has_Firebase}}
 
-    private static func configureSentry() {
+private extension ThirdPartyServices {
+{{#if has_Sentry}}
+    static func configureSentry() {
         // Add your DSN from sentry.io › Project Settings › Client Keys.
         let dsn = ""
         guard !dsn.isEmpty else { return }
@@ -29,12 +32,15 @@ enum ThirdPartyServices {
         }
     }
 {{/if}}
-{{#if has_Firebase}}
+{{#if has_Sentry && has_Firebase}}
 
-    private static func configureFirebase() {
+{{/if}}
+{{#if has_Firebase}}
+    static func configureFirebase() {
         // Download GoogleService-Info.plist from the Firebase console and add it to the app target.
         guard Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") != nil else { return }
         FirebaseApp.configure()
     }
 {{/if}}
 }
+{{/if}}

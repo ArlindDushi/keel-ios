@@ -28,23 +28,6 @@ final class HomeViewController: UIViewController {
         }
         Task { await viewModel.load() }
     }
-
-    private func render(_ state: HomeViewModel.State) {
-        homeView.setLoading(state == .loading)
-        homeView.tableView.reloadData()
-        if case let .failed(message) = state {
-            showError(message)
-        }
-    }
-
-    private func showError(_ message: String) {
-        let alert = UIAlertController(title: String(localized: "Something went wrong"), message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: String(localized: "Try Again"), style: .default) { [weak self] _ in
-            guard let self else { return }
-            Task { await self.viewModel.load() }
-        })
-        present(alert, animated: true)
-    }
 }
 
 extension HomeViewController: UITableViewDataSource {
@@ -68,5 +51,24 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         viewModel.selectItem(at: indexPath.row)
+    }
+}
+
+private extension HomeViewController {
+    func render(_ state: HomeViewModel.State) {
+        homeView.setLoading(state == .loading)
+        homeView.tableView.reloadData()
+        if case let .failed(message) = state {
+            showError(message)
+        }
+    }
+
+    func showError(_ message: String) {
+        let alert = UIAlertController(title: String(localized: "Something went wrong"), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: String(localized: "Try Again"), style: .default) { [weak self] _ in
+            guard let self else { return }
+            Task { await self.viewModel.load() }
+        })
+        present(alert, animated: true)
     }
 }

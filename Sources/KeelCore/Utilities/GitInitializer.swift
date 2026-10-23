@@ -13,8 +13,10 @@ public enum GitInitializer {
         try run(["add", "--all"], in: directory)
         try run(["commit", "--message", "Initial commit"], in: directory)
     }
+}
 
-    private static func run(_ arguments: [String], in directory: URL) throws {
+private extension GitInitializer {
+    static func run(_ arguments: [String], in directory: URL) throws {
         let process = Process()
         process.executableURL = URL(filePath: "/usr/bin/git")
         process.arguments = arguments

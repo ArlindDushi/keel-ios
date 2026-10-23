@@ -45,10 +45,12 @@ public struct SpecBuilder: Sendable {
     public func yaml() throws -> String {
         "# Regenerate the project with: xcodegen generate\n" + (try Yams.dump(object: dictionary(), sortKeys: true))
     }
+}
 
+private extension SpecBuilder {
     // MARK: - Sections
 
-    private func configs() -> [String: String] {
+    func configs() -> [String: String] {
         var configs: [String: String] = [:]
         for environment in configuration.environments {
             configs[environment.debugConfigurationName] = "debug"
@@ -57,7 +59,7 @@ public struct SpecBuilder: Sendable {
         return configs
     }
 
-    private func projectSettings() -> [String: Any] {
+    func projectSettings() -> [String: Any] {
         var settings: [String: Any] = [
             "SWIFT_VERSION": "6.0",
             "MARKETING_VERSION": "1.0.0",
@@ -73,7 +75,7 @@ public struct SpecBuilder: Sendable {
         return settings
     }
 
-    private func targets() -> [String: Any] {
+    func targets() -> [String: Any] {
         var targets: [String: Any] = [appName: appTarget()]
         if configuration.extras.tests {
             targets[unitTestsName] = testTarget(type: "bundle.unit-test", name: unitTestsName, suffix: "tests")
@@ -82,7 +84,7 @@ public struct SpecBuilder: Sendable {
         return targets
     }
 
-    private func appTarget() -> [String: Any] {
+    func appTarget() -> [String: Any] {
         let packages = configuration.resolvedPackages
         var settings: [String: Any] = [
             "INFOPLIST_FILE": "\(appName)/Resources/Info.plist",
@@ -132,7 +134,7 @@ public struct SpecBuilder: Sendable {
         return target
     }
 
-    private func testTarget(type: String, name: String, suffix: String) -> [String: Any] {
+    func testTarget(type: String, name: String, suffix: String) -> [String: Any] {
         [
             "type": type,
             "platform": "iOS",
@@ -146,7 +148,7 @@ public struct SpecBuilder: Sendable {
         ]
     }
 
-    private func schemes() -> [String: Any] {
+    func schemes() -> [String: Any] {
         var schemes: [String: Any] = [:]
         for environment in configuration.environments {
             let debug = environment.debugConfigurationName

@@ -11,9 +11,11 @@ struct RootView: View {
                 .navigationDestination(for: Route.self, destination: destination)
         }
     }
+}
 
+private extension RootView {
     @ViewBuilder
-    private func destination(for route: Route) -> some View {
+    func destination(for route: Route) -> some View {
         switch route {
         case let .itemDetail(item):
             ItemDetailView(viewModel: ItemDetailViewModel(item: item))
