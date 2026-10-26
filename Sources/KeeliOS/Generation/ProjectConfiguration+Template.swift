@@ -9,6 +9,7 @@ extension ProjectConfiguration {
         if extras.swiftLint { flags.insert("swiftlint") }
         if extras.fastlane { flags.insert("fastlane") }
         if extras.gitInit { flags.insert("git") }
+        if extras.agentGuide { flags.insert("agentguide") }
         if deviceFamily == .universal { flags.insert("universal") }
         if !teamID.isEmpty { flags.insert("has_team") }
         for product in resolvedPackages.flatMap(\.products) {

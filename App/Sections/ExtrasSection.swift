@@ -23,6 +23,10 @@ struct ExtrasSection: View {
                 Text("Git repository")
                 Text("Initializes git on main with an initial commit.")
             }
+            Toggle(isOn: $model.extras.agentGuide) {
+                Text("Agent guide")
+                Text("AGENTS.md and an architecture guide for coding agents; CLAUDE.md points to it.")
+            }
             Toggle(isOn: $model.extras.keepProjectSpec) {
                 Text("Keep project.yml")
                 Text("Lets you regenerate the project later with the XcodeGen command-line tool.")

@@ -33,6 +33,31 @@ struct GeneratorTests {
         let environment = try String(contentsOf: result.projectDirectory.appending(path: "Demo/Core/Environment/AppEnvironment.swift"), encoding: .utf8)
         #expect(environment.hasPrefix("//\n//  AppEnvironment.swift\n//  Demo\n"))
         #expect(environment.contains("    case dev\n    case staging\n    case production\n"))
+
+        for guide in ["AGENTS.md", "CLAUDE.md", "docs/ARCHITECTURE.md"] {
+            #expect(planned.contains(guide), "\(guide) is missing")
+        }
+        let claude = try String(contentsOf: result.projectDirectory.appending(path: "CLAUDE.md"), encoding: .utf8)
+        #expect(claude.contains("@AGENTS.md"))
+    }
+
+    /// Catches architecture guides that fall out of date when a pattern's sample code changes.
+    @Test(arguments: combinations)
+    func architectureGuidesReferenceExistingFiles(pattern: ArchitecturePattern, framework: UIFramework) throws {
+        let output = try makeTemporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: output) }
+        let configuration = ProjectConfiguration.fixture(pattern: pattern, framework: framework, outputDirectory: output)
+        let generator = Generator(configuration: configuration)
+        let result = try generator.generate()
+
+        let fileNames = Set(try generator.plannedFiles().map { ($0 as NSString).lastPathComponent })
+        let guide = try String(contentsOf: result.projectDirectory.appending(path: "docs/ARCHITECTURE.md"), encoding: .utf8)
+        // Placeholders such as `<Feature>View.swift` describe files to create, so they're skipped.
+        let referenced = guide.matches(of: /[A-Za-z0-9_+<>]+\.swift/).map { String($0.output) }.filter { !$0.contains("<") }
+        #expect(!referenced.isEmpty)
+        for name in Set(referenced) {
+            #expect(fileNames.contains(name), "docs/ARCHITECTURE.md names \(name), which isn't generated")
+        }
     }
 
     @Test func refusesToOverwrite() throws {
@@ -47,13 +72,20 @@ struct GeneratorTests {
 
     @Test func optionalModulesAreLeftOut() throws {
         let configuration = ProjectConfiguration.fixture(
-            extras: Extras(swiftLint: false, tests: false, fastlane: false, gitInit: false)
+            extras: Extras(swiftLint: false, tests: false, fastlane: false, gitInit: false, agentGuide: false)
         )
         let files = try Generator(configuration: configuration).plannedFiles()
         #expect(!files.contains { $0.hasPrefix("DemoTests") || $0.hasPrefix("DemoUITests") })
         #expect(!files.contains { $0.hasPrefix("fastlane") || $0 == "Gemfile" })
         #expect(!files.contains(".swiftlint.yml"))
+        #expect(!files.contains { $0 == "AGENTS.md" || $0 == "CLAUDE.md" || $0.hasPrefix("docs") })
         #expect(files.contains(".gitignore"))
+    }
+
+    @Test func extrasSavedBeforeAgentGuideStillDecode() throws {
+        let saved = Data(#"{"swiftLint":false,"tests":true,"fastlane":false,"gitInit":true,"keepProjectSpec":true}"#.utf8)
+        let extras = try JSONDecoder().decode(Extras.self, from: saved)
+        #expect(extras == Extras(swiftLint: false, tests: true, fastlane: false, gitInit: true, keepProjectSpec: true, agentGuide: true))
     }
 
     @Test func xcconfigEscapesURLs() {

@@ -9,6 +9,12 @@
 {{#if swiftlint}}
 3. Install SwiftLint (`brew install swiftlint`); it runs on every build.
 {{/if}}
+{{#if agentguide}}
+
+Working with a coding agent? `AGENTS.md` describes the project, and `docs/ARCHITECTURE.md` describes how
+{{PATTERN_NAME}} is applied here: the file structure, how the types communicate, and how navigation
+works. `CLAUDE.md` imports `AGENTS.md` for Claude Code.
+{{/if}}
 
 ## Environments
 

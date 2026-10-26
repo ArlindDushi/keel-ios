@@ -121,6 +121,9 @@ Weather/
 ├── .swiftlint.yml
 ├── Gemfile
 ├── README.md                 Describes the project's environments and packages
+├── AGENTS.md                 Guide for coding agents; CLAUDE.md imports it
+├── CLAUDE.md
+├── docs/ARCHITECTURE.md      How the chosen pattern is applied: structure, communication, routing
 └── Weather.xcodeproj
 ```
 
@@ -149,6 +152,7 @@ products to link.
 | Unit and UI tests | A Swift Testing unit test target and an XCUITest target, run by every scheme |
 | fastlane | A `Gemfile` and a `Fastfile` with a `beta_<environment>` TestFlight lane for each environment |
 | Git repository | `git init` on `main` with an initial commit |
+| Agent guide | `AGENTS.md` (commands, environments, conventions), `docs/ARCHITECTURE.md` for the chosen pattern and UI framework (file structure, communication, routing, DI, adding a feature, testing), and a `CLAUDE.md` that imports `AGENTS.md` |
 | Keep project.yml | The XcodeGen spec, so you can regenerate the project later |
 
 ### 6. Create
@@ -229,13 +233,17 @@ Optional keys: `defaultProducts`, `uiFrameworks` (`["uikit"]` or `["swiftui"]`) 
 - Conditions support `!`, `&&` and `||`. Available flags:
   - the UI framework: `swiftui`, `uikit`
   - the pattern: `mvc`, `mvvm`, `viper`, `clean_swift`, `tca`
-  - options: `tests`, `swiftlint`, `fastlane`, `git`, `universal`, `has_team`
+  - options: `tests`, `swiftlint`, `fastlane`, `git`, `agentguide`, `universal`, `has_team`
   - packages: `has_<Product>` for each linked product, plus `has_Firebase`
 - Variables are listed in `ProjectConfiguration+Template.swift`.
 - Swift files get their header on generation, so don't add one in templates.
 
 To add a pattern, add a case to `ArchitecturePattern` and a template folder for each UI framework it
-supports.
+supports, including its `[agentguide]docs/ARCHITECTURE.md`.
+
+Each pattern folder's `[agentguide]docs/ARCHITECTURE.md` describes that folder's sample code. When you
+change the sample code, update the guide too. A test checks that every `.swift` file the guide names
+is generated.
 
 ### Tests
 
